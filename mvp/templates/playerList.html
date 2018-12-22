@@ -1,0 +1,43 @@
+{% load static %}
+<html>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+<head>
+    <title>MVP Candidates</title>
+</head>
+<body>
+    <div class="container">
+      <h1 class="text-center">MVP Candidates</h1>
+    </div>
+    <div>
+    <div class="container">
+      <table class="table table-hover table-responsive">
+        <thead class ="thead thead-dark">
+          <tr>
+            <th scope="col">Name</th>
+          <!--<th scope="col">Team</th>-->
+            <th scope="col">PPG</th>
+            <th scope="col">APG</th>
+            <th scope="col">RPG</th>
+            <!--<th scope="col">TOV</th>-->
+          </tr>
+        </thead>
+        <tbody>
+          {% if player_list %}
+              {% for player in player_list %}
+              <tr>
+                <th scope="row"><a href="{% url 'mvp:playerDetails' player.id %}">{{ player.player_name }}</a></th>
+                <td>{{ player.ppg }}</td>
+                <td>{{ player.apg }}</td>
+                <td>{{ player.rpg }}</td>
+                <!--<td>{{ player.tpg }}</td>-->
+              </tr>
+              {% endfor %}
+              {% else %}
+              <p>No Players are available.</p>
+              {% endif %}
+        </tbody>
+      </table>
+    </div>
+</body>
+</html>
