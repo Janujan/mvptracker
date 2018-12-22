@@ -27,7 +27,7 @@ class playListView(generic.ListView):
     context_object_name = 'player_list'
 
     def get_queryset(self):
-        return Player.objects.all()
+        return Player.objects.order_by('-ascore')
 
 def playerDetails(request, player_id):
     model = Player

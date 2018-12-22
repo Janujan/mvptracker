@@ -8,7 +8,7 @@ class Player(models.Model):
     apg = models.IntegerField()
     rpg = models.IntegerField()
     tpg = models.IntegerField()
-
+    ascore = models.IntegerField( default = 0)
     def __str__(self):
         return self.player_name
 
@@ -20,6 +20,7 @@ class Player(models.Model):
         self.apg = player.ast
         self.rpg = player.reb
         self.tpg = player.tov
+        self.ascore = self.ppg + self.apg + self.rpg - self.tpg
 
 class Game(models.Model):
     player = models.ForeignKey(Player,on_delete=models.CASCADE)

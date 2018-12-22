@@ -63,6 +63,10 @@ class Ball_Player:
         player_team = player[0][team]
         return player_team
 
+    def tov_per_game(self, player):
+        turnovers = player[0][tov]
+        return turnovers
+
     def populate(self):
         self.get_season_totals()
         print(self.name)
@@ -71,6 +75,7 @@ class Ball_Player:
         self.ppg = self.points_per_game(pop)
         self.reb = self.rebs_per_game(pop)
         self.ast = self.asts_per_game(pop)
+        self.tov = self.tov_per_game(pop)
         self.team = self.get_team(pop)
 
     def print(self):

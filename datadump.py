@@ -53,3 +53,12 @@ class Dd:
 
             del pp
             del player
+
+    def updateScore(self):
+        print('updating a score')
+
+        players = Player.objects.all()
+
+        for player in players:
+            player.ascore = player.ppg + player.apg + player.rpg
+            player.save()
