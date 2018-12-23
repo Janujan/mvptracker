@@ -45,6 +45,20 @@
       <div class="row">
         <div col="col"><h2 class="text-center">Recent Blog Posts</h2></div>
       </div>
+      <div class="container">
+        <div class="row">
+        {% if blog_list %}
+            {% for post in blog_list %}
+              <h3>{{ post.title }}</h3>
+              <p>By {{ post.author }}</p>
+              <p>{{ post.text }}</p>
+              <p>Publised on {{post.pub_date}}</p>
+            {% endfor %}
+            {% else %}
+            <p>No posts are available.</p>
+            {% endif %}
+        </div>
     </div>
+  </div>
 </body>
 </html>

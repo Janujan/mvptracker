@@ -4,7 +4,7 @@ from django.http import Http404
 from django.views import generic
 from collections import OrderedDict
 
-from .models import Player, Game
+from .models import Player, Game, Blog
 from fusioncharts import FusionCharts
 
 # Create your views here.
@@ -22,12 +22,22 @@ from fusioncharts import FusionCharts
 #     context = {'player': player}
 #     return render(request, 'details.html', context)
 
+
 class playListView(generic.ListView):
     template_name = 'playerList.html'
     context_object_name = 'player_list'
 
     def get_queryset(self):
         return Player.objects.order_by('-ascore')
+
+def summaryList(request):
+    player_list = Player.objects.order_by('-ascore')
+    blog_list = Blog.objects.all()
+
+    context = { 'player_list' : player_list,
+                'blog_list': blog_list[0:5]}
+
+    return render(request, 'playerList.html', context)
 
 def playerDetails(request, player_id):
     model = Player
