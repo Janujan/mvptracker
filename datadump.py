@@ -2,6 +2,7 @@ from bball_wrapper import Ball_Player
 from bball_wrapper import Game as game
 
 from mvp.models import Player, Game
+from datetime import datetime, timezone, tzinfo
 
 class Dd:
     names = [
@@ -62,3 +63,44 @@ class Dd:
         for player in players:
             player.ascore = player.ppg + player.apg + player.rpg
             player.save()
+
+    def player_avg_Update(self):
+        print('Setting new averages games')
+
+        players = Player.objects.all()
+
+        for player in players:
+            play = Ball_Player(player.player_name)
+            play.populate()
+            player.copy(play)
+            player.save()
+            del play
+
+    def updateGames(self):
+
+        players = Player.objects.all()
+        today = datetime.now(timezone.utc)
+
+        for player in players:
+            games = player.game_set.order_by('-start_time')
+            latest_game = games[0]
+
+            play = Ball_Player(player.player_name)
+            play.populate()
+
+            schedule = play.get_last_five_games(latest_game.start_time)
+
+            for day in schedule:
+                g = game(day, player.player_name)
+                print(day)
+                flag = g.get_box_score()
+                if flag:
+                    g.update()
+                    gg = Game(start_time = g.date, player = player)
+                    gg.copy(g)
+                    print(gg.player)
+                    gg.save()
+                    del gg
+                else:
+                    print('Player did not play')
+                del g

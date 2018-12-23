@@ -64,7 +64,7 @@ class Ball_Player:
         return player_team
 
     def tov_per_game(self, player):
-        turnovers = player[0][tov]
+        turnovers = player[0][tov]/self.gp
         return turnovers
 
     def populate(self):
@@ -97,13 +97,18 @@ class Ball_Player:
     def get_season_totals(self):
         self.season_totals = client.players_season_totals(season_end_year=2019)
 
-    def get_last_five_games(self):
+    def get_last_five_games(self, date = None):
         schedule = client.season_schedule(season_end_year=2019)
         games = []
         today = datetime.now(timezone.utc)
+
+        if not date:
+            t_delta = 365
+        else:
+            t_delta = (today-date).days-1
         for game in schedule:
             game_day = game['start_time']
-            if((today - game_day).days >=0):
+            if(0<=(today - game_day).days < t_delta ):
                 if( game['home_team'] == self.team):
                     games.append(game['start_time'])
                 elif( game['away_team'] == self.team):
@@ -154,6 +159,7 @@ class Game:
         est = tz('US/Eastern')
         self.date = self.date.astimezone(est)
         player_scores = client.player_box_scores(self.date.day, self.date.month, self.date.year)
+        print(player_scores)
         self.box_score = list(filter(lambda person: person['name'] == self.name, player_scores))
         if self.box_score:
             return True

@@ -19,7 +19,7 @@
             <th scope="col">PPG</th>
             <th scope="col">APG</th>
             <th scope="col">RPG</th>
-            <!--<th scope="col">TOV</th>-->
+            <th scope="col">TOV</th>
           </tr>
         </thead>
         <tbody>
@@ -30,7 +30,7 @@
                 <td>{{ player.ppg }}</td>
                 <td>{{ player.apg }}</td>
                 <td>{{ player.rpg }}</td>
-                <!--<td>{{ player.tpg }}</td>-->
+                <td>{{ player.tpg }}</td>
               </tr>
               {% endfor %}
               {% else %}
@@ -38,6 +38,13 @@
               {% endif %}
         </tbody>
       </table>
+    </div>
+
+
+    <div class="container">
+      <div class="row">
+        <div col="col"><h2 class="text-center">Recent Blog Posts</h2></div>
+      </div>
     </div>
 </body>
 </html>
