@@ -35,6 +35,7 @@ class Dd:
             pp = Player(player_name = player.name)
             pp.copy(player)
             pp.save()
+            player.print()
 
             game_days = player.get_last_five_games()
             for games in game_days:
