@@ -9,4 +9,5 @@ urlpatterns = [
     path('', views.summaryList, name='playerlist'),
     #/mvp/1
     path('<int:player_id>/', views.playerDetails, name='playerDetails'),
+    path('blog/<int:blog_id>/', views.blogDetails, name='blogDetails'),
 ]

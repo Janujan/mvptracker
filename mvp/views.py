@@ -21,14 +21,16 @@ from fusioncharts import FusionCharts
 #
 #     context = {'player': player}
 #     return render(request, 'details.html', context)
+def blogDetails(request, blog_id):
+    try:
+        blog = Blog.objects.get(pk = blog_id)
+    except:
+        raise Http404("Post does not exist")
 
+    context = {'blog_details': blog}
 
-class playListView(generic.ListView):
-    template_name = 'playerList.html'
-    context_object_name = 'player_list'
+    return render(request, 'post.html', context)
 
-    def get_queryset(self):
-        return Player.objects.order_by('-ascore')
 
 def summaryList(request):
     player_list = Player.objects.order_by('-ascore')

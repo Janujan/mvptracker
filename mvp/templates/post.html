@@ -1,0 +1,23 @@
+<html>
+<head>
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+</head>
+<body>
+  <div class="container">
+    {% if blog_details %}
+    <div class="row">
+      <h1>{{blog_details.title}}</h1>
+      <p>{{blog_details.pub_date}}</p>
+      <p> By {{blog_details.author}} </p>
+    </div>
+
+    <div class="row">
+      <p>{{blog_details.text}}
+
+    </div
+    {% else %}
+        <p>No Posts are available.</p>
+    {% endif %}
+  </div>
+</body>

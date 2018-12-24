@@ -35,7 +35,7 @@
               {% endfor %}
               {% else %}
               <p>No Players are available.</p>
-              {% endif %}
+          {% endif %}
         </tbody>
       </table>
     </div>
@@ -48,11 +48,11 @@
       <div class="container">
         <div class="row">
         {% if blog_list %}
-            {% for post in blog_list %}
-              <h3>{{ post.title }}</h3>
-              <p>By {{ post.author }}</p>
-              <p>{{ post.text }}</p>
-              <p>Publised on {{post.pub_date}}</p>
+            {% for blog in blog_list %}
+              <h3><a href="{% url 'mvp:blogDetails' blog.id %}">{{ blog.title }}</a></h3>
+              <p>By {{ blog.author }}</p>
+              <p>{{ blog.text }}</p>
+              <p>Publised on {{blog.pub_date}}</p>
             {% endfor %}
             {% else %}
             <p>No posts are available.</p>
