@@ -1,10 +1,8 @@
-{% load static %}
-<html>
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-<head>
-    <title>MVP Candidates</title>
-</head>
+{% extends 'base.html' %}
+{% block title %}MVP Tracker{% endblock title %}
+{% block nav-style %}mkt-nav{% endblock nav-style %}
+
+{% block content %}
 <body>
     <div class="container">
       <h1 class="text-center">MVP Candidates</h1>
@@ -15,7 +13,6 @@
         <thead class ="thead thead-dark">
           <tr>
             <th scope="col">Name</th>
-          <!--<th scope="col">Team</th>-->
             <th scope="col">PPG</th>
             <th scope="col">APG</th>
             <th scope="col">RPG</th>
@@ -46,19 +43,25 @@
         <div col="col"><h2 class="text-center">Recent Blog Posts</h2></div>
       </div>
       <div class="container">
+        <div class="container">
         <div class="row">
+
         {% if blog_list %}
             {% for blog in blog_list %}
               <h3><a href="{% url 'mvp:blogDetails' blog.id %}">{{ blog.title }}</a></h3>
               <p>By {{ blog.author }}</p>
               <p>{{ blog.text|truncatechars:255}}</p>
-              <p>Publised on {{blog.pub_date}}</p>
+              <p>Published on {{blog.pub_date}}</p>
             {% endfor %}
             {% else %}
             <p>No posts are available.</p>
             {% endif %}
         </div>
+        </div>
+
+
     </div>
   </div>
 </body>
 </html>
+{% endblock content %}
