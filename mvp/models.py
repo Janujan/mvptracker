@@ -6,11 +6,11 @@ from django.utils import timezone
 class Player(models.Model):
     player_name = models.CharField(max_length=200)
     player_team = models.CharField(max_length=200)
-    ppg = models.IntegerField()
-    apg = models.IntegerField()
-    rpg = models.IntegerField()
-    tpg = models.IntegerField()
-    ascore = models.IntegerField( default = 0)
+    ppg = models.FloatField()
+    apg = models.FloatField()
+    rpg = models.FloatField()
+    tpg = models.FloatField()
+    ascore = models.FloatField( default = 0)
     def __str__(self):
         return self.player_name
 
@@ -18,11 +18,11 @@ class Player(models.Model):
     def copy(self, player):
         self.player_name = player.name
         self.team = player.team
-        self.ppg = player.ppg
-        self.apg = player.ast
-        self.rpg = player.reb
-        self.tpg = player.tov
-        self.ascore = self.ppg + self.apg + self.rpg - self.tpg
+        self.ppg = round(player.ppg,1)
+        self.apg = round(player.ast,1)
+        self.rpg = round(player.reb,1)
+        self.tpg = round(player.tov,1)
+        self.ascore = round(self.ppg + self.apg + self.rpg - self.tpg, 1)
 
 class Game(models.Model):
     player = models.ForeignKey(Player,on_delete=models.CASCADE)
@@ -52,7 +52,7 @@ class Blog(models.Model):
     title = models.CharField(max_length = 200)
     text = models.TextField()
     date_created = models.DateTimeField(default = timezone.now())
-
+    image_url = models.URLField(blank = True)
     def publish(self):
         self.pub_date = timezone.now()
         self.save()

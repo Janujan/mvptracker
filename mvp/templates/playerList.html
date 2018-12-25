@@ -51,7 +51,7 @@
             {% for blog in blog_list %}
               <h3><a href="{% url 'mvp:blogDetails' blog.id %}">{{ blog.title }}</a></h3>
               <p>By {{ blog.author }}</p>
-              <p>{{ blog.text }}</p>
+              <p>{{ blog.text|truncatechars:255}}</p>
               <p>Publised on {{blog.pub_date}}</p>
             {% endfor %}
             {% else %}

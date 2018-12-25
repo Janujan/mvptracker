@@ -15,6 +15,7 @@ ast = 'assists'
 tov = 'turnovers'
 team = 'team'
 
+
 class Ball_Player:
 
     season_totals = []
@@ -69,7 +70,6 @@ class Ball_Player:
 
     def populate(self):
         self.get_season_totals()
-        print(self.name)
         pop = self.get_player(self.name, self.season_totals)
         self.gp = self.games_played(pop)
         self.ppg = self.points_per_game(pop)
@@ -97,18 +97,14 @@ class Ball_Player:
     def get_season_totals(self):
         self.season_totals = client.players_season_totals(season_end_year=2019)
 
-    def get_last_five_games(self, date = None):
+    def get_last_five_games(self):
         schedule = client.season_schedule(season_end_year=2019)
         games = []
         today = datetime.now(timezone.utc)
 
-        if not date:
-            t_delta = 365
-        else:
-            t_delta = (today-date).days-1
         for game in schedule:
             game_day = game['start_time']
-            if(0<=(today - game_day).days < t_delta ):
+            if((today - game_day).days >= 0 ):
                 if( game['home_team'] == self.team):
                     games.append(game['start_time'])
                 elif( game['away_team'] == self.team):

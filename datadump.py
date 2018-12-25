@@ -17,6 +17,7 @@ class Dd:
     'Giannis Antetokounmpo',
     'Damian Lillard'
     ]
+
     def delete_old(self):
         p = Player.objects.all()
         g = Game.objects.all()
@@ -38,8 +39,8 @@ class Dd:
             player.print()
 
             game_days = player.get_last_five_games()
+            print(game_days)
             for games in game_days:
-                print(games)
                 g = game(games, player.name)
                 flag = g.get_box_score()
                 if flag:
@@ -82,26 +83,26 @@ class Dd:
         players = Player.objects.all()
         today = datetime.now(timezone.utc)
 
-        for player in players:
-            games = player.game_set.order_by('-start_time')
-            latest_game = games[0]
-
-            play = Ball_Player(player.player_name)
-            play.populate()
-
-            schedule = play.get_last_five_games(latest_game.start_time)
-
-            for day in schedule:
-                g = game(day, player.player_name)
-                print(day)
-                flag = g.get_box_score()
-                if flag:
-                    g.update()
-                    gg = Game(start_time = g.date, player = player)
-                    gg.copy(g)
-                    print(gg.player)
-                    gg.save()
-                    del gg
-                else:
-                    print('Player did not play')
-                del g
+        # for player in players:
+        #     games = player.game_set.order_by('-start_time')
+        #     latest_game = games[0]
+        #
+        #     play = Ball_Player(player.player_name)
+        #     play.populate()
+        #
+        #     schedule = play.get_last_five_games(latest_game.start_time)
+        #
+        #     for day in schedule:
+        #         g = game(day, player.player_name)
+        #         print(day)
+        #         flag = g.get_box_score()
+        #         if flag:
+        #             g.update()
+        #             gg = Game(start_time = g.date, player = player)
+        #             gg.copy(g)
+        #             print(gg.player)
+        #             gg.save()
+        #             del gg
+        #         else:
+        #             print('Player did not play')
+        #         del g
