@@ -25,7 +25,7 @@ SECRET_KEY = '8p(k5z!0+4a3y%s8sq$mox7okm=95jks&4x6)ba3opo-0j7*tc'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -123,3 +123,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Parse database configuration from $DATABASE_URL
+if ENV_ROLE == 'production':
+    import dj_database_url
+    DATABASES['default'] =  dj_database_url.config()
