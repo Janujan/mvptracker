@@ -155,7 +155,6 @@ class Game:
         est = tz('US/Eastern')
         self.date = self.date.astimezone(est)
         player_scores = client.player_box_scores(self.date.day, self.date.month, self.date.year)
-        print(player_scores)
         self.box_score = list(filter(lambda person: person['name'] == self.name, player_scores))
         if self.box_score:
             return True
