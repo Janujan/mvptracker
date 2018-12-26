@@ -25,7 +25,7 @@ SECRET_KEY = '8p(k5z!0+4a3y%s8sq$mox7okm=95jks&4x6)ba3opo-0j7*tc'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS =  ['intense-hamlet.herokuapp.com']
+ALLOWED_HOSTS =  ['intense-hamlet-29591.herokuapp.com']
 
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'SOME+RANDOM+KEY(z9+3vnm(jb0u@&w68t#5_e8s9-lbfhv-')
