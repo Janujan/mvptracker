@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 SECRET_KEY = '8p(k5z!0+4a3y%s8sq$mox7okm=95jks&4x6)ba3opo-0j7*tc'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS =  ['intense-hamlet.herokuapp.com']
 
