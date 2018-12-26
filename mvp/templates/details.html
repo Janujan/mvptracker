@@ -10,28 +10,22 @@
 
 <body>
 
-<div class = "container">
+<div class = "container" style="text-align:center">
   <div class="row">
-    <div class="col-md-4"></div>
-    <div class="col-md-4">
       <h1 class="text-center">{{ player.player_name }}</h1>
-    </div>
   </div>
 
-<div class="row">
-<div class="col-sm-3"></div>
-<div class="col">
+<div class="row" style="text-align:center">
+<div class="col" style="display:inline-block">
   <div id="points-container" >{{ output1|safe }}</div>
 </div>
 </div>
 <div class="row">
-  <div class="col-sm-3"></div>
   <div class="col">
   <div id="assists-container">{{ output2|safe }}</div>
   </div>
 </div>
 <div class="row">
-  <div class="col-sm-3"></div>
   <div class="col">
   <div id="rebounds-container">{{ output3|safe }}</div>
   </div>
