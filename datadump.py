@@ -39,7 +39,7 @@ class Dd:
             player.print()
 
             game_days = player.get_last_five_games()
-            print(game_days)
+            #print(game_days)
             for games in game_days:
                 g = game(games, player.name)
                 flag = g.get_box_score()
