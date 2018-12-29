@@ -85,7 +85,6 @@ class Dd:
             pp = Player.objects.get(player_name = name)
             pp.copy(player)
             pp.save()
-            player.print()
             del pp
             del player
 
@@ -120,11 +119,13 @@ class Dd:
                         gg = Game(start_time = g.date, player = pp)
                         gg.copy(g)
                         print(gg)
-                        gg.save()
+                        #gg.save()
                         del gg
                     else:
                         print('Player did not play')
                     del g
-            pp.save()
+                else:
+                    print('skipped game')
+            #pp.save()
             del pp
             del player
