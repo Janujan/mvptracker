@@ -66,7 +66,7 @@ def playerDetails(request, player_id):
     # The `chartData` dict contains key-value pairs of data
     chartData = OrderedDict()
 
-    games = player.game_set.all()
+    games = player.game_set.order_by('start_time')
     for i in range(len(games)-5,len(games)):
         chartData[str(games[i].start_time)] = games[i].points
 
