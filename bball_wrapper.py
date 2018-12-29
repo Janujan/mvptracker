@@ -41,33 +41,40 @@ class Ball_Player:
 
         return ppg
 
+    #return rebounds per game
     def rebs_per_game( self, player):
         def_rebounds = player[0][def_reb]
         off_rebounds = player[0][off_reb]
         return (def_rebounds + off_rebounds)/self.gp
 
 
+    #return the player stats given name and full season stats (filtering)
     def get_player( self, player_name, season_totals ):
         player = list(filter(lambda person: person['name'] == player_name, season_totals))
         return player
 
+    #return the games that specified player has played in (avoid injuries)
     def games_played(self, player):
         team = player[0]['team']
         total_games = player[0][gp]
         return total_games
 
+    #return assists per game
     def asts_per_game(self, player):
         assists = player[0][ast]
         return assists/self.gp
 
+    #return team that player is on
     def get_team(self, player):
         player_team = player[0][team]
         return player_team
 
+    #return turnovers per game
     def tov_per_game(self, player):
         turnovers = player[0][tov]/self.gp
         return turnovers
 
+    #update all stats for player object
     def populate(self):
         self.get_season_totals()
         pop = self.get_player(self.name, self.season_totals)
@@ -77,6 +84,7 @@ class Ball_Player:
         self.ast = self.asts_per_game(pop)
         self.tov = self.tov_per_game(pop)
         self.team = self.get_team(pop)
+
 
     def print(self):
         print(self.name)
@@ -94,9 +102,11 @@ class Ball_Player:
     def __repr__(self):
         return repr(self.name)
 
+    #return all player season totals, make this year adjustable
     def get_season_totals(self):
         self.season_totals = client.players_season_totals(season_end_year=2019)
 
+    #return all games played by team
     def get_all_games(self):
         schedule = client.season_schedule(season_end_year=2019)
         games = []
@@ -114,8 +124,11 @@ class Ball_Player:
                 elif( game['away_team'] == self.team):
                     games.append(game['start_time'])
         return games
+
+
 class Game:
     box_score = []
+
     def __init__(self, date, name):
         self.name = name
         self.date = date
@@ -125,6 +138,7 @@ class Game:
         self.tov = 0
         self.gmscre = 0
 
+    # populate all variables once box_score is retrieved
     def update(self):
         self.pts = self.update_points(self.box_score)
         self.rebs = self.update_rebounds(self.box_score)
@@ -155,11 +169,13 @@ class Game:
         gmscr = player[0]['game_score']
         return gmscr
 
+    #retrieve the box_score for the game played by this player
     def get_box_score(self):
         est = tz('US/Eastern')
         self.date = self.date.astimezone(est)
         player_scores = client.player_box_scores(self.date.day, self.date.month, self.date.year)
         self.box_score = list(filter(lambda person: person['name'] == self.name, player_scores))
+        #make sure box_score is not empty
         if self.box_score:
             return True
         else:

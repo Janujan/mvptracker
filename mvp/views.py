@@ -7,20 +7,7 @@ from collections import OrderedDict
 from .models import Player, Game, Blog
 from fusioncharts import FusionCharts
 
-# Create your views here.
-# def playerlist(request):
-#     player_list = Player.objects.all()
-#     context = {'player_list': player_list}
-#     return render(request, 'playerList.html', context)
-#
-# def playerDetails(request, player_id):
-#     try:
-#         player = Player.objects.get(pk=player_id)
-#     except:
-#         raise Http404("Player does not exist")
-#
-#     context = {'player': player}
-#     return render(request, 'details.html', context)
+
 def blogDetails(request, blog_id):
     try:
         blog = Blog.objects.get(pk = blog_id)
