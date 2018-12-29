@@ -97,10 +97,14 @@ class Ball_Player:
     def get_season_totals(self):
         self.season_totals = client.players_season_totals(season_end_year=2019)
 
-    def get_last_five_games(self):
+    def get_all_games(self):
         schedule = client.season_schedule(season_end_year=2019)
         games = []
         today = datetime.now(timezone.utc)
+
+        #one day offset
+        yesterday = today.day - 1
+        today = today.replace(day=yesterday)
 
         for game in schedule:
             game_day = game['start_time']

@@ -38,7 +38,7 @@ class Dd:
             pp.save()
             player.print()
 
-            game_days = player.get_last_five_games()
+            game_days = player.get_all_games()
             #print(game_days)
             for games in game_days:
                 g = game(games, player.name)
@@ -78,31 +78,53 @@ class Dd:
             player.save()
             del play
 
-    def updateGames(self):
+    def updatePlayer(self):
+        for name in self.names:
+            player = Ball_Player(name)
+            player.populate()
+            pp = Player.objects.get(player_name = name)
+            pp.copy(player)
+            pp.save()
+            player.print()
+            del pp
+            del player
 
-        players = Player.objects.all()
-        today = datetime.now(timezone.utc)
 
-        # for player in players:
-        #     games = player.game_set.order_by('-start_time')
-        #     latest_game = games[0]
-        #
-        #     play = Ball_Player(player.player_name)
-        #     play.populate()
-        #
-        #     schedule = play.get_last_five_games(latest_game.start_time)
-        #
-        #     for day in schedule:
-        #         g = game(day, player.player_name)
-        #         print(day)
-        #         flag = g.get_box_score()
-        #         if flag:
-        #             g.update()
-        #             gg = Game(start_time = g.date, player = player)
-        #             gg.copy(g)
-        #             print(gg.player)
-        #             gg.save()
-        #             del gg
-        #         else:
-        #             print('Player did not play')
-        #         del g
+    def updateStats(self):
+
+        player_list= Player.objects.all()
+        for player in player_list:
+
+            #get new player stats
+            player = Ball_Player(player.player_name)
+            player.populate()
+
+            #get player object to get appriopriate id for each game added
+            pp = Player.objects.get(player_name= player.name)
+            sched = player.get_all_games()
+
+            #retrieve the last game stored
+            games = pp.game_set.order_by('start_time')
+            size = len(games)
+            last_game_stored = games[size-1]
+
+            #go through last 5 games and update new games
+            for x in range(1,6):
+                game_day = sched[-x]
+                if (game_day - last_game_stored.start_time).days>0:
+                    g = game(game_day, player.name)
+                    flag = g.get_box_score()
+                    if flag:
+                        g.update()
+                        g.print()
+                        gg = Game(start_time = g.date, player = pp)
+                        gg.copy(g)
+                        print(gg)
+                        gg.save()
+                        del gg
+                    else:
+                        print('Player did not play')
+                    del g
+            pp.save()
+            del pp
+            del player
