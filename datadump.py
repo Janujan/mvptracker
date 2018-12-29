@@ -119,7 +119,7 @@ class Dd:
                         gg = Game(start_time = g.date, player = pp)
                         gg.copy(g)
                         print(gg)
-                        #gg.save()
+                        gg.save()
                         del gg
                     else:
                         print('Player did not play')
