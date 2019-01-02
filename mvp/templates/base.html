@@ -5,41 +5,39 @@
     <head>
       {% load static %}
         <title>{% block title %}Home {% endblock title %}</title>
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        {% load staticfiles %}
+        <link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap.min.css'%}" type="text/css">
+        <link href="{% static 'vendor/fontawesome-free/css/all.min.css'%}" rel="stylesheet" type="text/css">
+        <link href="{% static 'css/creative.min.css'%}" rel="stylesheet" type="text/css">
+        <link href="{% static 'css/creative.css'%}" rel="stylesheet" type="text/css">
+
 
     </head>
 
     <body>
     {# Navigation Menu #}
-    <header>
-        <div class="navbar navbar-default navbar-static-top"
-            <div class="container p-none">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle"
-                            data-toggle="collapse"
-                            data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="/mvp/">MVP Tracker</a>
-                </div>
-                <div class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav navbar-right">
-                        {% if user.is_authenticated %}
-                            <li><a href="">Logout</a></li>
-                            <li><a href=""
-                                   class="p-r-none">Accounts</a></li>
-                        {% else %}
-                            <li><a href="">Login</a></li>
-                            <li><a href="" class="p-r-none">Sign Up</a></li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>
+      <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+        <div class="container">
+          <a class="navbar-brand js-scroll-trigger" href="/mvp/">MVP Tracker</a>
+          <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link js-scroll-trigger" href="">Login</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
+              </li>
+            </ul>
+          </div>
         </div>
-    </header>
+      </nav>
+  <div class="container my-auto" style="padding-top:50px">
+    <div class="row">
+    </div>
+  </div>
     {# The Document Body #}
     <div id="site-wrapper">
         {% block content %}
@@ -47,9 +45,21 @@
         {% endblock content %}
     </div>
     {# The Footer #}
+
     <div class="footer">
         <div class="container">
             <p class="text-center">Copyright MVPTracker</p>
         </div>
     </div>
+    <!-- Bootstrap core JavaScript -->
+    <script src="{% static 'vendor/jquery/jquery.min.js'%}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js'%}"></script>
+    <script src="{% static 'vendor/scrollreveal/scrollreveal.min.js'%}"></script>
+      <script src="{% static 'vendor/magnific-popup/jquery.magnific-popup.min.js'%}"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="{% static 'js/creative.min.js'%}"></script>
 </body>

@@ -9,7 +9,9 @@
     </div>
     <div>
     <div class="container">
-      <table class="table table-hover table-responsive">
+      <div class="row">
+      <div class="table-responsive">
+      <table class="table table-hover ">
         <thead class ="thead thead-dark">
           <tr>
             <th scope="col">Name</th>
@@ -35,20 +37,21 @@
           {% endif %}
         </tbody>
       </table>
+      </div>
+      </div>
     </div>
 
 
     <div class="container">
       <div class="row">
-        <div col="col"><h2 class="text-center">Recent Blog Posts</h2></div>
+        <div col="col-lg-6"><h2 class="text-center">Recent Blog Posts</h2></div>
       </div>
-      <div class="container">
-        <div class="container">
         <div class="row">
-
+          <div col="col-lg-6">
         {% if blog_list %}
             {% for blog in blog_list %}
-              <h3><a href="{% url 'mvp:blogDetails' blog.id %}">{{ blog.title }}</a></h3>
+              <h4><a href="{% url 'mvp:blogDetails' blog.id %}">{{ blog.title }}</a></h3>
+
               <p>By {{ blog.author }}</p>
               <p>{{ blog.text|truncatechars:255}}</p>
               <p>Published on {{blog.pub_date}}</p>
@@ -56,11 +59,10 @@
             {% else %}
             <p>No posts are available.</p>
             {% endif %}
-        </div>
+            </div>
         </div>
 
 
-    </div>
   </div>
 </body>
 </html>
