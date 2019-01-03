@@ -54,8 +54,8 @@ def playerDetails(request, player_id):
     chartData = OrderedDict()
 
     games = player.game_set.order_by('start_time')
-    for i in range(len(games)-5,len(games)):
-        chartData[str(games[i].start_time)] = games[i].points
+    for i in range(len(games)-10,len(games)):
+        chartData[str(games[i].start_time.strftime('%m-%d'))] = games[i].points
 
     dataSource["chart"] = chartConfig
     dataSource["data"] = []
@@ -91,8 +91,8 @@ def playerDetails(request, player_id):
     dataSource2["chart"] = chartConfig2
     dataSource2["data"] = []
 
-    for i in range(len(games)-5,len(games)):
-        chartData2[str(games[i].start_time)] = games[i].assists
+    for i in range(len(games)-10,len(games)):
+        chartData2[str(games[i].start_time.strftime('%m-%d'))] = games[i].assists
 
     dataSource2["data"] = []
     for key, value in chartData2.items():
@@ -119,8 +119,8 @@ def playerDetails(request, player_id):
     dataSource3["chart"] = chartConfig3
     dataSource3["data"] = []
 
-    for i in range(len(games)-5,len(games)):
-        chartData3[str(games[i].start_time)] = games[i].rebounds
+    for i in range(len(games)-10,len(games)):
+        chartData3[str(games[i].start_time.strftime('%m-%d'))] = games[i].rebounds
 
     dataSource3["data"] = []
     for key, value in chartData3.items():
