@@ -6,7 +6,7 @@ from rest_framework.test import APITestCase, APIClient
 from rest_framework.views import status
 from .models import Player, Game
 from .serializer import PlayerSerializer
-
+import json
 # tests for views
 class BaseViewTest(APITestCase):
     client = APIClient()
@@ -23,20 +23,19 @@ class BaseViewTest(APITestCase):
         self.create_player("Steve Nash", "Phoenix Suns")
         self.create_player("Ron Artest", "Houston Rockets")
 
-
 class GetAllPlayersTest(BaseViewTest):
 
     def test_get_all_players(self):
         """
-        This test ensures that all songs added in the setUp method
-        exist when we make a GET request to the songs/ endpoint
+        Check that all players returned by API endpoint match the players in
+        database
         """
         # hit the API endpoint
         response = self.client.get(
-            reverse("mvp:players-all")
+            reverse("mvp:playersList")
         )
         # fetch the data from db
         expected = Player.objects.all()
         serialized = PlayerSerializer(expected, many=True)
-        self.assertEqual(response.data, serialized.data)
+        self.assertEqual(response.json(), serialized.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)

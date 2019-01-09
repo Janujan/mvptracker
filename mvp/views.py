@@ -40,6 +40,10 @@ def detailedPlayer(request, name):
         #perform some name cleaning
         names = name.split(' ')
         clean_name = names[0].capitalize() + ' ' + names[1].capitalize()
+        print(clean_name)
+
+        if clean_name == 'Lebron James':
+            clean_name = 'LeBron James'
         player = Player.objects.get(player_name=clean_name)
     except Player.DoesNotExist:
         return HttpResponse(status=400)
