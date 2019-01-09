@@ -55,13 +55,13 @@ class PlayerPostTest(APITestCase):
         self.assertEqual(Player.objects.get().player_name, 'Kobe Bryant')
 
 class PlayerPostTestFail(APITestCase):
-        def test_fail_create_Player(self):
-            """
-            Ensure that with no auth, player does not get saved
-            """
-            url = reverse('mvp:playersList')
-            authenticated = 0
-            data = {'player_name': 'Kobe Bryant', 'player_team':'LALakers', 'complete':authenticated}
-            response = self.client.post(url, data, format='json')
-            self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
-            self.assertEqual(Player.objects.count(), 0)
+    def test_fail_create_Player(self):
+        """
+        Ensure that with no auth, player does not get saved
+        """
+        url = reverse('mvp:playersList')
+        authenticated = 0
+        data = {'player_name': 'Kobe Bryant', 'player_team':'LALakers', 'complete':authenticated}
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(Player.objects.count(), 0)

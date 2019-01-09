@@ -24,6 +24,11 @@ class ListPlayerView(generics.ListAPIView):
 def playersList(request):
     if request.method == 'GET':
         players = Player.objects.all()
+
+        print(request.query_params)
+        if(request.query_params.get('max')):
+            max_val = int(request.query_params.get('max'))
+            players= players[0:max_val-1]
         serializer = PlayerSerializer(players,many=True)
         return JsonResponse(serializer.data, safe=False)
 
