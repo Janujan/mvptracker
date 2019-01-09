@@ -6,6 +6,17 @@ from collections import OrderedDict
 
 from .models import Player, Game, Blog
 from fusioncharts import FusionCharts
+from rest_framework import generics
+from .models import Player
+from .serializer import PlayerSerializer
+
+
+class ListPlayerView(generics.ListAPIView):
+    """
+    Provides a get method handler.
+    """
+    queryset = Player.objects.all()
+    serializer_class = PlayerSerializer
 
 
 def blogDetails(request, blog_id):

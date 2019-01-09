@@ -6,10 +6,10 @@ from django.utils import timezone
 class Player(models.Model):
     player_name = models.CharField(max_length=200)
     player_team = models.CharField(max_length=200)
-    ppg = models.FloatField()
-    apg = models.FloatField()
-    rpg = models.FloatField()
-    tpg = models.FloatField()
+    ppg = models.FloatField( default = 0)
+    apg = models.FloatField( default = 0)
+    rpg = models.FloatField( default = 0)
+    tpg = models.FloatField( default = 0)
     ascore = models.FloatField( default = 0)
     def __str__(self):
         return self.player_name
