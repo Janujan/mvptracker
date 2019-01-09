@@ -5,6 +5,7 @@ from django.views import generic
 from collections import OrderedDict
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
+from rest_framework.decorators import api_view
 
 from .models import Player, Game, Blog
 from fusioncharts import FusionCharts
@@ -19,6 +20,7 @@ class ListPlayerView(generics.ListAPIView):
     queryset = Player.objects.all()
     serializer_class = PlayerSerializer
 
+@api_view(['GET', 'POST'])
 def playersList(request):
     if request.method == 'GET':
         players = Player.objects.all()
@@ -26,12 +28,17 @@ def playersList(request):
         return JsonResponse(serializer.data, safe=False)
 
     elif request.method == 'POST':
-        data = JSONParser().parse(request.data)
-        serializer = PlayerSerializer(data=data)
-
+        # check if player is authenticated
+        serializer = PlayerSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data, status=201)
+
+            if(request.data['complete']==1):
+                print('AUTHENTICATED')
+                serializer.save()
+                return JsonResponse(serializer.data, status=201)
+
+            return JsonResponse(status=401, data={'status':'false','message':"not authorized"})
+
         return JsonResponse(serializer.errors, status=400)
 
 
