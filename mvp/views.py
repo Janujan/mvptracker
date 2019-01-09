@@ -1,12 +1,79 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.http import Http404
 from django.views import generic
 from collections import OrderedDict
+from rest_framework.renderers import JSONRenderer
+from rest_framework.parsers import JSONParser
+from rest_framework.decorators import api_view
 
 from .models import Player, Game, Blog
 from fusioncharts import FusionCharts
+from rest_framework import generics
+from .models import Player, Game
+from .serializer import PlayerSerializer, PlayerDetailSerializer
 
+class ListPlayerView(generics.ListAPIView):
+    """
+    Provides a get method handler.
+    """
+    queryset = Player.objects.all()
+    serializer_class = PlayerSerializer
+
+@api_view(['GET', 'POST'])
+def playersList(request):
+    if request.method == 'GET':
+        players = Player.objects.all()
+
+        print(request.query_params)
+        if(request.query_params.get('max')):
+            max_val = int(request.query_params.get('max'))
+            players= players[0:max_val-1]
+        serializer = PlayerSerializer(players,many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+    elif request.method == 'POST':
+        # check if player is authenticated
+        serializer = PlayerSerializer(data=request.data)
+        if serializer.is_valid():
+
+            if(request.data['complete']==1):
+                print('AUTHENTICATED')
+                serializer.save()
+                return JsonResponse(serializer.data, status=201)
+
+            return JsonResponse(status=401, data={'status':'false','message':"not authorized"})
+
+        return JsonResponse(serializer.errors, status=400)
+
+
+def detailedPlayer(request, name):
+    try:
+        #perform some name cleaning
+        names = name.split(' ')
+        clean_name = names[0].capitalize() + ' ' + names[1].capitalize()
+        print(clean_name)
+
+        if clean_name == 'Lebron James':
+            clean_name = 'LeBron James'
+        player = Player.objects.get(player_name=clean_name)
+    except Player.DoesNotExist:
+        return HttpResponse(status=400)
+
+    if request.method == 'GET':
+        serializer = PlayerDetailSerializer(player)
+        return JsonResponse(serializer.data, safe=False)
+
+    elif request.method == 'PUT':
+        serializer = PlayerDetailSerializer(player, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data)
+        return JsonResponse(serializer.errors, status=400)
+
+    elif request.method == 'DELETE':
+        player.delete()
+        return HttpResponse(status=204)
 
 def blogDetails(request, blog_id):
     try:
@@ -53,7 +120,7 @@ def playerDetails(request, player_id):
     # The `chartData` dict contains key-value pairs of data
     chartData = OrderedDict()
 
-    games = player.game_set.order_by('start_time')
+    games = player.games.order_by('start_time')
     for i in range(len(games)-10,len(games)):
         chartData[str(games[i].start_time.strftime('%m-%d'))] = games[i].points
 

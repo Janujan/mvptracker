@@ -6,10 +6,10 @@ from django.utils import timezone
 class Player(models.Model):
     player_name = models.CharField(max_length=200)
     player_team = models.CharField(max_length=200)
-    ppg = models.FloatField()
-    apg = models.FloatField()
-    rpg = models.FloatField()
-    tpg = models.FloatField()
+    ppg = models.FloatField( default = 0)
+    apg = models.FloatField( default = 0)
+    rpg = models.FloatField( default = 0)
+    tpg = models.FloatField( default = 0)
     ascore = models.FloatField( default = 0)
     def __str__(self):
         return self.player_name
@@ -25,7 +25,7 @@ class Player(models.Model):
         self.ascore = round(self.ppg + self.apg + self.rpg - self.tpg, 1)
 
 class Game(models.Model):
-    player = models.ForeignKey(Player,on_delete=models.CASCADE)
+    player = models.ForeignKey(Player,related_name='games',on_delete=models.CASCADE)
     start_time = models.DateTimeField('game day')
     points = models.IntegerField()
     assists = models.IntegerField()
