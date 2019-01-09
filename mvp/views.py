@@ -65,8 +65,7 @@ def detailedPlayer(request, name):
         return JsonResponse(serializer.data, safe=False)
 
     elif request.method == 'PUT':
-        data = JSONParser().parse(request)
-        serializer = PlayerDetailSerializer(player, data=data)
+        serializer = PlayerDetailSerializer(player, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data)
