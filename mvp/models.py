@@ -25,7 +25,7 @@ class Player(models.Model):
         self.ascore = round(self.ppg + self.apg + self.rpg - self.tpg, 1)
 
 class Game(models.Model):
-    player = models.ForeignKey(Player,on_delete=models.CASCADE)
+    player = models.ForeignKey(Player,related_name='games',on_delete=models.CASCADE)
     start_time = models.DateTimeField('game day')
     points = models.IntegerField()
     assists = models.IntegerField()
