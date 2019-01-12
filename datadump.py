@@ -103,7 +103,7 @@ class Dd:
             sched = player.get_all_games()
 
             #retrieve the last game stored
-            games = pp.game_set.order_by('start_time')
+            games = pp.games.order_by('start_time')
             size = len(games)
             last_game_stored = games[size-1]
 

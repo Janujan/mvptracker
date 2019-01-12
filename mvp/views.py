@@ -4,7 +4,6 @@ from django.http import Http404
 from django.views import generic
 from collections import OrderedDict
 from rest_framework.renderers import JSONRenderer
-from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
 
 from .models import Player, Game, Blog
@@ -46,7 +45,7 @@ def playersList(request):
 
         return JsonResponse(serializer.errors, status=400)
 
-
+@api_view(['GET'])
 def detailedPlayer(request, name):
     try:
         #perform some name cleaning
