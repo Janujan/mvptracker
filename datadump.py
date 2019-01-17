@@ -63,7 +63,7 @@ class Dd:
         players = Player.objects.all()
 
         for player in players:
-            player.ascore = player.ppg + player.apg + player.rpg
+            player.ascore = player.ppg + player.apg + (0.7)*player.rpg
             player.save()
 
     def player_avg_Update(self):

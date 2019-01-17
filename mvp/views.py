@@ -12,12 +12,6 @@ from rest_framework import generics
 from .models import Player, Game
 from .serializer import PlayerSerializer, PlayerDetailSerializer
 
-class ListPlayerView(generics.ListAPIView):
-    """
-    Provides a get method handler.
-    """
-    queryset = Player.objects.all()
-    serializer_class = PlayerSerializer
 
 @api_view(['GET', 'POST'])
 def playersList(request):
