@@ -7,7 +7,6 @@ app_name = 'mvp'
 urlpatterns = [
     #/mvp/
     path('', views.summaryList, name='playerlist'),
-    #/mvp/1
     path('<int:player_id>/', views.playerDetails, name='playerDetails'),
     path('blog/<int:blog_id>/', views.blogDetails, name='blogDetails'),
     path('api/', views.playersList, name='playersList'),

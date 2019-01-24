@@ -1,8 +1,10 @@
 from bball_wrapper import Ball_Player
 from bball_wrapper import Game as game
+from basketball_reference_web_scraper import client
+
 
 from mvp.models import Player, Game
-from datetime import datetime, timezone, tzinfo
+from datetime import datetime, timezone, tzinfo, timedelta
 
 class Dd:
     names = [
@@ -79,44 +81,52 @@ class Dd:
             del play
 
     def updatePlayer(self):
-        for name in self.names:
-            player = Ball_Player(name)
-            player.populate()
-            pp = Player.objects.get(player_name = name)
-            pp.copy(player)
+
+        season_totals = client.players_season_totals(season_end_year=2019)
+
+        for player in season_totals:
+            player_obj = Ball_Player(player['name'])
+            player_obj.populateLive(player)
+            pp = Player.objects.filter(player_name = player_obj.name)
+            if len(pp) > 1:
+                ppp = Player.objects.filter(player_name = player_obj.name)[1]
+                ppp.delete()
+            pp = Player.objects.filter(player_name = player_obj.name)[0]
+            print(pp)
+            pp.copy(player_obj)
             pp.save()
             del pp
-            del player
-
+            del player_obj
 
     def updateStats(self):
 
-        player_list= Player.objects.all()
+        player_list= Player.objects.order_by('ascore').reverse()[0:10]
+
         for player in player_list:
-
             #get new player stats
-            player = Ball_Player(player.player_name)
-            player.populate()
-
-            #get player object to get appriopriate id for each game added
-            pp = Player.objects.get(player_name= player.name)
-            sched = player.get_all_games()
-
+            player_obj = Ball_Player(player.player_name)
+            player_obj.copy(player)
+            sched = player_obj.get_all_games()
+            print(sched)
             #retrieve the last game stored
-            games = pp.games.order_by('start_time')
+            games = player.games.order_by('start_time')
             size = len(games)
-            last_game_stored = games[size-1]
+            if size == 0:
+                last_game_stored = sched[-10]
+                print(last_game_stored)
+            else:
+                last_game_stored = games[size-1].start_time
 
             #go through last 5 games and update new games
             for x in range(1,6):
                 game_day = sched[-x]
-                if (game_day - last_game_stored.start_time).days>0:
-                    g = game(game_day, player.name)
+                if (game_day - last_game_stored).days>0:
+                    g = game(game_day, player_obj.name)
                     flag = g.get_box_score()
                     if flag:
                         g.update()
                         g.print()
-                        gg = Game(start_time = g.date, player = pp)
+                        gg = Game(start_time = g.date, player = player)
                         gg.copy(g)
                         print(gg)
                         gg.save()
@@ -126,6 +136,5 @@ class Dd:
                     del g
                 else:
                     print('skipped game')
-            #pp.save()
-            del pp
+
             del player

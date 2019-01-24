@@ -17,7 +17,7 @@ class Player(models.Model):
     #take player object from bball_wrapper and convert to datebase entry
     def copy(self, player):
         self.player_name = player.name
-        self.team = player.team
+        self.player_team = player.team.value
         self.ppg = round(player.ppg,1)
         self.apg = round(player.ast,1)
         self.rpg = round(player.reb,1)

@@ -16,7 +16,7 @@ from .serializer import PlayerSerializer, PlayerDetailSerializer
 @api_view(['GET', 'POST'])
 def playersList(request):
     if request.method == 'GET':
-        players = Player.objects.all()
+        players = Player.objects.order_by('-ascore')[0:10]
 
         print(request.query_params)
         if(request.query_params.get('max')):
@@ -80,7 +80,7 @@ def blogDetails(request, blog_id):
 
 
 def summaryList(request):
-    player_list = Player.objects.order_by('-ascore')
+    player_list = Player.objects.order_by('-ascore')[0:10]
     blog_list = Blog.objects.all()
 
     context = { 'player_list' : player_list,
@@ -114,7 +114,7 @@ def playerDetails(request, player_id):
     chartData = OrderedDict()
 
     games = player.games.order_by('start_time')
-    for i in range(len(games)-10,len(games)):
+    for i in range(len(games)-5,len(games)):
         chartData[str(games[i].start_time.strftime('%m-%d'))] = games[i].points
 
     dataSource["chart"] = chartConfig
@@ -151,7 +151,7 @@ def playerDetails(request, player_id):
     dataSource2["chart"] = chartConfig2
     dataSource2["data"] = []
 
-    for i in range(len(games)-10,len(games)):
+    for i in range(len(games)-5,len(games)):
         chartData2[str(games[i].start_time.strftime('%m-%d'))] = games[i].assists
 
     dataSource2["data"] = []
@@ -179,7 +179,7 @@ def playerDetails(request, player_id):
     dataSource3["chart"] = chartConfig3
     dataSource3["data"] = []
 
-    for i in range(len(games)-10,len(games)):
+    for i in range(len(games)-5,len(games)):
         chartData3[str(games[i].start_time.strftime('%m-%d'))] = games[i].rebounds
 
     dataSource3["data"] = []
