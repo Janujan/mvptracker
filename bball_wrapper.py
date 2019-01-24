@@ -15,7 +15,6 @@ ast = 'assists'
 tov = 'turnovers'
 team = 'team'
 
-
 class Ball_Player:
 
     season_totals = []
@@ -30,12 +29,16 @@ class Ball_Player:
         self.tov = 0
         self.gp = 0
 
+    #get a player model and copy teeam info
+    def copy(self, player):
+        self.team = player.player_team
+
     #return points per game
     def points_per_game( self, player ):
 
-        point_threes = player[0][threes]*3
-        point_twos = (player[0][fgs] - player[0][threes])*2
-        point_ones = player[0][fts]
+        point_threes = player[threes]*3
+        point_twos = (player[fgs] - player[threes])*2
+        point_ones = player[fts]
         total_points = point_threes + point_twos + point_ones
         ppg = total_points/self.gp
 
@@ -43,8 +46,8 @@ class Ball_Player:
 
     #return rebounds per game
     def rebs_per_game( self, player):
-        def_rebounds = player[0][def_reb]
-        off_rebounds = player[0][off_reb]
+        def_rebounds = player[def_reb]
+        off_rebounds = player[off_reb]
         return (def_rebounds + off_rebounds)/self.gp
 
 
@@ -55,29 +58,28 @@ class Ball_Player:
 
     #return the games that specified player has played in (avoid injuries)
     def games_played(self, player):
-        team = player[0]['team']
-        total_games = player[0][gp]
+        team = player['team']
+        total_games = player[gp]
         return total_games
 
     #return assists per game
     def asts_per_game(self, player):
-        assists = player[0][ast]
+        assists = player[ast]
         return assists/self.gp
 
     #return team that player is on
     def get_team(self, player):
-        player_team = player[0][team]
+        player_team = player[team]
         return player_team
 
     #return turnovers per game
     def tov_per_game(self, player):
-        turnovers = player[0][tov]/self.gp
+        turnovers = player[tov]/self.gp
         return turnovers
 
     #update all stats for player object
-    def populate(self):
+    def populate(self, pop):
         self.get_season_totals()
-        pop = self.get_player(self.name, self.season_totals)
         self.gp = self.games_played(pop)
         self.ppg = self.points_per_game(pop)
         self.reb = self.rebs_per_game(pop)
@@ -85,6 +87,13 @@ class Ball_Player:
         self.tov = self.tov_per_game(pop)
         self.team = self.get_team(pop)
 
+    def populateLive(self, pop):
+        self.gp = self.games_played(pop)
+        self.ppg = self.points_per_game(pop)
+        self.reb = self.rebs_per_game(pop)
+        self.ast = self.asts_per_game(pop)
+        self.tov = self.tov_per_game(pop)
+        self.team = self.get_team(pop)
 
     def print(self):
         print(self.name)
@@ -119,9 +128,9 @@ class Ball_Player:
         for game in schedule:
             game_day = game['start_time']
             if((today - game_day).days >= 0 ):
-                if( game['home_team'] == self.team):
+                if( game['home_team'].value == self.team):
                     games.append(game['start_time'])
-                elif( game['away_team'] == self.team):
+                elif( game['away_team'].value == self.team):
                     games.append(game['start_time'])
         return games
 
