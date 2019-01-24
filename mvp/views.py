@@ -16,7 +16,7 @@ from .serializer import PlayerSerializer, PlayerDetailSerializer
 @api_view(['GET', 'POST'])
 def playersList(request):
     if request.method == 'GET':
-        players = Player.objects.all()
+        players = Player.objects.order_by('-ascore')[0:10]
 
         print(request.query_params)
         if(request.query_params.get('max')):
