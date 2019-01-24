@@ -11,10 +11,6 @@ django.setup()
 #from datadump import Dd
 from mvp.models import Player, Game
 
-# d = Dd()
-# d.updateStats()
-# d.updatePlayer()
-
 
 season_totals = client.players_season_totals(season_end_year=2019)
 

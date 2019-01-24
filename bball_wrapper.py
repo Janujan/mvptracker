@@ -31,7 +31,7 @@ class Ball_Player:
 
     #get a player model and copy teeam info
     def copy(self, player):
-        self.team = player.player_team
+        self.team = player.player_team.value
 
     #return points per game
     def points_per_game( self, player ):
