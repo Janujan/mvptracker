@@ -19,5 +19,5 @@ django.setup()
 from datadump import Dd
 
 d = Dd()
-#d.updateStats()
+d.updateStats()
 d.updatePlayer()
