@@ -53,7 +53,9 @@
               <h4><a href="{% url 'mvp:blogDetails' blog.id %}">{{ blog.title }}</a></h3>
 
               <p>By {{ blog.author }}</p>
-              <p>{{ blog.text|truncatechars:255}}</p>
+              <p>{{ blog.text|truncatechars:255}}
+              <a href="{% url 'mvp:blogDetails' blog.id %}"> Read More </a>
+              </p>
               <p>Published on {{blog.pub_date}}</p>
             {% endfor %}
             {% else %}
